@@ -23,6 +23,11 @@ public class Cours implements ICours {
         this.necessiteProjecteur = necessiteProjecteur;
     }
 
+    
+    public static CoursBuilder builder() {
+        return new CoursBuilder();
+    }
+
     @Override
     public String getDescription() {
         return "Cours de " + matiere + " avec " + enseignant + " (" + salle + ")";
@@ -36,4 +41,10 @@ public class Cours implements ICours {
     
     public String getMatiere() { return matiere; }
     public String getEnseignant() { return enseignant; }
+    public String getSalle() { return salle; }
+    public String getDate() { return date; }
+    public String getHeureDebut() { return heureDebut; }
+    public boolean isEstOptionnel() { return estOptionnel; }
+    public String getNiveau() { return niveau; }
+    public boolean isNecessiteProjecteur() { return necessiteProjecteur; }
 }

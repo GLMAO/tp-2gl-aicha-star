@@ -3,23 +3,54 @@ package com.polytech.tp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GestionnaireEmploiDuTemps {
+public class GestionnaireEmploiDuTemps implements Subject {
     private List<ICours> listeCours = new ArrayList<>();
+    private List<Observer> observateurs = new ArrayList<>();
+    private String dernierChangement;
+
+    // Implémentation du pattern Observer
+    @Override
+    public void attach(Observer o) {
+        observateurs.add(o);
+    }
+
+    @Override
+    public void detach(Observer o) {
+        observateurs.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+        for (Observer observateur : observateurs) {
+            observateur.update(message);
+        }
+    }
 
     public void ajouterCours(ICours cours) {
         this.listeCours.add(cours);
-        System.out.println("Nouveau cours ajouté : " + cours.getDescription());
-        // TODO: C'est ici qu'il faudrait notifier les étudiants (Observer pattern)
+        String message = "Nouveau cours ajouté : " + cours.getDescription();
+        System.out.println(message);
+        notifyObservers(message);
     }
 
-    public void modifierCours(ICours cours, String message) {
+    public void modifierCours(ICours cours, String modifications) {
         // Logique de modification...
-        System.out.println("Cours modifié : " + message);
-        // TODO: Notifier les observateurs ici aussi
+        String message = "Cours modifié : " + cours.getDescription() + " - " + modifications;
+        System.out.println(message);
+        notifyObservers(message);
     }
 
-    public void setChangement(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setChangement'");
+    public void annulerCours(ICours cours) {
+        this.listeCours.remove(cours);
+        String message = "Cours annulé : " + cours.getDescription();
+        System.out.println(message);
+        notifyObservers(message);
+    }
+
+    // CORRECTION : Implémenter la méthode setChangement
+    public void setChangement(String changement) {
+        this.dernierChangement = changement;
+        // Notifier tous les observateurs du changement
+        notifyObservers(changement);
     }
 }
