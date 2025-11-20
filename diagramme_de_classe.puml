@@ -1,0 +1,107 @@
+@startuml
+' Title
+title Diagramme de classes
+
+' Interfaces
+interface ICours {
+  +getDescription()
+  +getDuree()
+}
+
+interface Subject {
+  +attach(o: Observer)
+  +detach(o: Observer)
+  +notifyObservers(message: String)
+}
+
+interface Observer {
+  +update(message: String)
+}
+
+' Classes
+class Cours {
+  -matiere: String
+  -enseignant: String
+  -salle: String
+  -date: String
+  -heureDebut: String
+  -estOptionnel: boolean
+  -niveau: String
+  -necessiteProjecteur: boolean
+  +Cours(matiere, enseignant, salle, date, heureDebut, estOptionnel, niveau, necessiteProjecteur)
+  +getDescription(): String
+  +getDuree(): double
+  +getMatiere(): String
+  +getEnseignant(): String
+  +static builder(): CoursBuilder
+}
+
+class CoursBuilder {
+  -matiere: String
+  -enseignant: String
+  -salle: String
+  -date: String
+  -heureDebut: String
+  -estOptionnel: boolean
+  -niveau: String
+  -necessiteProjecteur: boolean
+  +setMatiere(m: String): CoursBuilder
+  +setEnseignant(e: String): CoursBuilder
+  +setSalle(s: String): CoursBuilder
+  +setDate(d: String): CoursBuilder
+  +setHeureDebut(h: String): CoursBuilder
+  +setEstOptionnel(opt: boolean): CoursBuilder
+  +setNiveau(n: String): CoursBuilder
+  +setNecessiteProjecteur(p: boolean): CoursBuilder
+  +build(): Cours
+}
+
+class CoursDecorator {
+  -coursDecorated: ICours
+  +CoursDecorator(c: ICours)
+  +getDescription(): String
+  +getDuree(): double
+}
+
+class CoursEnLigne {
+  +CoursEnLigne(c: ICours)
+  +getDescription(): String
+  +getDuree(): double
+}
+
+class GestionnaireEmploiDuTemps {
+  -listeCours: List<ICours>
+  -observers: List<Observer>
+  +ajouterCours(c: ICours)
+  +modifierCours(c: ICours, message: String)
+  +setChangement(message: String)
+  // Subject methods
+  +attach(o: Observer)
+  +detach(o: Observer)
+  +notifyObservers(message: String)
+}
+
+class Etudiant {
+  -nom: String
+  +Etudiant(n: String)
+  +update(message: String)
+}
+
+class Responsable {
+  -nom: String
+  +Responsable(n: String)
+  +update(message: String)
+}
+
+' Relationships
+ICours <|.. Cours
+ICours <|.. CoursDecorator
+CoursDecorator <|-- CoursEnLigne
+CoursBuilder --> Cours : build()
+GestionnaireEmploiDuTemps ..|> Subject
+Observer <|.. Etudiant
+Observer <|.. Responsable
+GestionnaireEmploiDuTemps o-- "*" Observer : observers
+GestionnaireEmploiDuTemps o-- "*" ICours : listeCours
+
+@enduml
