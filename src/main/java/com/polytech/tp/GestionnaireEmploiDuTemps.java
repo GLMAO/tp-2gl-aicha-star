@@ -8,7 +8,7 @@ public class GestionnaireEmploiDuTemps implements Subject {
     private List<Observer> observateurs = new ArrayList<>();
     private String dernierChangement;
 
-    // Implémentation du pattern Observer
+   
     @Override
     public void attach(Observer o) {
         observateurs.add(o);
@@ -34,7 +34,7 @@ public class GestionnaireEmploiDuTemps implements Subject {
     }
 
     public void modifierCours(ICours cours, String modifications) {
-        // Logique de modification...
+       
         String message = "Cours modifié : " + cours.getDescription() + " - " + modifications;
         System.out.println(message);
         notifyObservers(message);
@@ -47,10 +47,10 @@ public class GestionnaireEmploiDuTemps implements Subject {
         notifyObservers(message);
     }
 
-    // CORRECTION : Implémenter la méthode setChangement
+    
     public void setChangement(String changement) {
         this.dernierChangement = changement;
-        // Notifier tous les observateurs du changement
+        
         notifyObservers(changement);
     }
 }
